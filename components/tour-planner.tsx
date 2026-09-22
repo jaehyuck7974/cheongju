@@ -196,7 +196,7 @@ function CourseDetail({ course, mode, className = "" }: { course: Course; mode: 
         <div><span>{course.theme} COURSE</span><h3>{course.title}</h3></div>
         <div className="detail-time">{mode === "walk" ? <Footprints /> : <Car />}<strong>{mode === "walk" ? course.walkMinutes : course.driveMinutes}분</strong><small>예상 이동</small></div>
       </div>
-      <ol className="detail-stops">
+      <ol className="detail-stops" tabIndex={0} aria-label="코스 방문 순서, 좌우로 스크롤할 수 있습니다">
         {course.stops.map((slug, index) => (
           <li key={slug}><span>{index + 1}</span><div><strong>{placeBySlug[slug].name}</strong><small>{placeBySlug[slug].category} · {placeBySlug[slug].lead}</small></div></li>
         ))}
