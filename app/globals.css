@@ -206,6 +206,11 @@ footer p { margin: 0; }
 .source-list span { width: 100%; color: #f0ad2c; text-align: right; font-weight: 900; }
 .source-list a { text-decoration: underline; text-underline-offset: 3px; }
 
+@media (min-width: 821px) {
+  .map-column { grid-template-rows: 500px auto; align-content: start; }
+  .tour-map { height: 500px; min-height: 500px; }
+  .tour-map > svg { height: 500px; min-height: 0; }
+}
 @media (max-width: 1100px) {
   .product-hero { grid-template-columns: 1fr; }
   .hero-main { max-width: 900px; }
