@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Bike, Camera, Car, Check, ChevronRight, Clock3, Footprints, ImagePlus, Loader2, Map, MapPin, Navigation, RefreshCw, Route, Sparkles, Trash2, X } from "lucide-react";
+import { Bike, Car, Check, ChevronRight, Clock3, Footprints, ImagePlus, Loader2, Map, MapPin, Navigation, RefreshCw, Route, Sparkles, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -214,7 +214,6 @@ function PlaceDirectory({ selectedPlace, onSelectPlace }: { selectedPlace: strin
           <h3>{place.name}</h3><p className="guide-lead">{place.lead}</p><p className="guide-description">{place.description}</p>
           <div className="guide-address"><MapPin />{place.address}</div>
           <div className="guide-highlights">{place.highlights.map((item) => <span key={item}>{item}</span>)}</div>
-          <div className="photo-checklist"><strong><Camera /> 촬영 체크리스트</strong><ol>{place.photoGuide.map((item) => <li key={item}>{item}</li>)}</ol></div>
           <a className="source-link" href={place.source} target="_blank" rel="noreferrer">관광정보 출처 확인 <ChevronRight /></a>
         </div>
         <PhotoGallery place={place} />
