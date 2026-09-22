@@ -1,5 +1,6 @@
-import { ArrowDown, MapPin, Menu, Route } from "lucide-react";
+import { ArrowDown, ChevronDown, ExternalLink, Images, MapPin, Menu, Route } from "lucide-react";
 import { TourPlanner } from "@/components/tour-planner";
+import { photoSourceGroups } from "@/lib/photo-sources";
 import { places } from "@/lib/travel-data";
 
 export default function Home() {
@@ -34,6 +35,20 @@ export default function Home() {
       <footer>
         <div><p className="footer-title">청주 한 바퀴</p><p>2026 인문자연탐사 44조 · 도시의 물길과 문화길을 잇는 관광 코스 플래너</p></div>
         <div className="source-list"><span>기초 관광정보</span>{places.map((place) => <a href={place.source} key={place.slug} target="_blank" rel="noreferrer">{place.shortName}</a>)}</div>
+        <details className="photo-credits" id="photo-sources">
+          <summary><span><Images aria-hidden="true" />사진 출처 보기</span><small>7개 명소 · 16개 링크</small><ChevronDown aria-hidden="true" /></summary>
+          <div className="photo-credits-panel">
+            <p>사진과 참고 이미지의 원문입니다. 사용 전 각 출처에서 저작권과 이용 조건을 확인해 주세요.</p>
+            <div className="photo-credit-grid">
+              {photoSourceGroups.map((group) => (
+                <section className="photo-credit-group" key={group.place}>
+                  <h3>{group.place}</h3>
+                  <ul>{group.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.label}<ExternalLink aria-hidden="true" /></a></li>)}</ul>
+                </section>
+              ))}
+            </div>
+          </div>
+        </details>
       </footer>
     </main>
   );

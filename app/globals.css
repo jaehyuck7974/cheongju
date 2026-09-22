@@ -208,6 +208,22 @@ footer p { margin: 0; }
 .source-list { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px 13px; }
 .source-list span { width: 100%; color: #f0ad2c; text-align: right; font-weight: 900; }
 .source-list a { text-decoration: underline; text-underline-offset: 3px; }
+.photo-credits { grid-column: 1 / -1; margin-top: -25px; border-top: 1px solid #384441; }
+.photo-credits summary { min-height: 48px; display: flex; align-items: center; gap: 9px; color: #fff; list-style: none; cursor: pointer; }
+.photo-credits summary::-webkit-details-marker { display: none; }
+.photo-credits summary > span { display: flex; align-items: center; gap: 8px; font-weight: 850; }
+.photo-credits summary > span svg { width: 16px; color: #f0ad2c; }
+.photo-credits summary small { margin-left: auto; color: #8f9c99; }
+.photo-credits summary > svg { width: 17px; transition: transform .18s; }
+.photo-credits[open] summary > svg { transform: rotate(180deg); }
+.photo-credits-panel { padding: 4px 0 10px; }
+.photo-credits-panel > p { color: #8f9c99; font-size: .72rem; }
+.photo-credit-grid { margin-top: 15px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 24px; }
+.photo-credit-group h3 { margin: 0 0 6px; color: #dce4e2; font-size: .78rem; }
+.photo-credit-group ul { margin: 0; padding: 0; display: grid; gap: 4px; list-style: none; }
+.photo-credit-group a { display: flex; align-items: center; gap: 5px; color: #8f9c99; font-size: .7rem; }
+.photo-credit-group a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.photo-credit-group a svg { width: 11px; flex: 0 0 auto; }
 
 @media (min-width: 821px) {
   .map-column { grid-template-rows: 500px auto; align-content: start; }
@@ -223,6 +239,7 @@ footer p { margin: 0; }
   .place-guide { grid-template-columns: 1fr; }
   .guide-copy { border-right: 0; border-bottom: 1px solid #17201f; }
   .gallery-wrap { min-height: 650px; }
+  .photo-credit-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 820px) {
   .place-picker { grid-template-columns: repeat(2, 1fr); }
@@ -340,6 +357,10 @@ footer p { margin: 0; }
   footer { grid-template-columns: 1fr; gap: 30px; }
   .source-list { justify-content: flex-start; }
   .source-list span { text-align: left; }
+  .photo-credits { margin-top: 0; }
+  .photo-credits summary { min-height: 52px; }
+  .photo-credit-grid { grid-template-columns: 1fr; gap: 15px; }
+  .photo-credit-group a { min-height: 32px; font-size: .76rem; }
 }
 @keyframes scroll-cue {
   0%, 100% { transform: translateX(0); }
