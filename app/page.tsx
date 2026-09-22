@@ -17,7 +17,7 @@ export default function Home() {
       <section className="product-hero" id="top">
         <div className="hero-main">
           <p className="section-kicker">2026 인문자연탐사 · 44조</p>
-          <h1>가고 싶은 곳을 고르면,<br /><span>청주 코스가 완성됩니다.</span></h1>
+          <h1><span className="hero-lead">가고 싶은 곳을 고르면,</span>{" "}<span className="hero-accent">청주 코스가 완성됩니다.</span></h1>
           <p>무심천부터 고인쇄박물관, 국립현대미술관 청주까지. 한 장소를 선택하면 그곳이 포함된 여행 코스와 이동시간을 지도에서 비교해 보세요.</p>
           <a href="#planner" className="hero-button">지금 코스 찾기 <ArrowDown /></a>
         </div>

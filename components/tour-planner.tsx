@@ -88,12 +88,15 @@ export function TourPlanner() {
           <div className="planner-summary"><strong>{courses.length}</strong><span>개의 코스<br />10개 명소</span></div>
         </div>
 
-        <div className="place-picker" aria-label="관광지 선택">
-          {places.map((place) => (
-            <button key={place.slug} onClick={() => choosePlace(place.slug)} className={selectedPlace === place.slug ? "active" : ""} aria-pressed={selectedPlace === place.slug}>
-              <span>{place.number}</span><strong>{place.shortName}</strong><small>{place.category}</small>
-            </button>
-          ))}
+        <div className="place-picker-wrap">
+          <p className="mobile-scroll-hint" aria-hidden="true">옆으로 밀어 10개 명소 보기 <ChevronRight /></p>
+          <div className="place-picker" aria-label="관광지 선택">
+            {places.map((place) => (
+              <button key={place.slug} onClick={() => choosePlace(place.slug)} className={selectedPlace === place.slug ? "active" : ""} aria-pressed={selectedPlace === place.slug}>
+                <span>{place.number}</span><strong>{place.shortName}</strong><small>{place.category}</small>
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="planner-toolbar">
@@ -210,12 +213,15 @@ function PlaceDirectory({ selectedPlace, onSelectPlace }: { selectedPlace: strin
   return (
     <section className="directory-section" id="places">
       <div className="directory-head"><div><p className="section-kicker">10 DESTINATIONS</p><h2>코스를 이루는 청주의 장소들</h2></div><p>각 장소의 특징과 촬영 계획을 확인하고 현장에서 직접 찍은 사진을 최대 5장까지 기록할 수 있습니다.</p></div>
-      <div className="place-card-grid">
-        {places.map((item) => (
-          <button key={item.slug} onClick={() => { setActiveGuide(item.slug); onSelectPlace(item.slug); }} className={activeGuide === item.slug ? "active" : ""} style={{ "--place-color": item.accent } as React.CSSProperties}>
-            <span>{item.number}</span><small>{item.category}</small><strong>{item.name}</strong><p>{item.lead}</p><ChevronRight />
-          </button>
-        ))}
+      <div className="place-card-grid-wrap">
+        <p className="mobile-scroll-hint" aria-hidden="true">옆으로 밀어 10개 명소 보기 <ChevronRight /></p>
+        <div className="place-card-grid">
+          {places.map((item) => (
+            <button key={item.slug} onClick={() => { setActiveGuide(item.slug); onSelectPlace(item.slug); }} className={activeGuide === item.slug ? "active" : ""} style={{ "--place-color": item.accent } as React.CSSProperties}>
+              <span>{item.number}</span><small>{item.category}</small><strong>{item.name}</strong><p>{item.lead}</p><ChevronRight />
+            </button>
+          ))}
+        </div>
       </div>
       <article className="place-guide" style={{ "--place-color": place.accent } as React.CSSProperties}>
         <div className="guide-copy">
