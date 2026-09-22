@@ -201,6 +201,10 @@ function CourseDetail({ course, mode, className = "" }: { course: Course; mode: 
           <li key={slug}><span>{index + 1}</span><div><strong>{placeBySlug[slug].name}</strong><small>{placeBySlug[slug].category} · {placeBySlug[slug].lead}</small></div></li>
         ))}
       </ol>
+      <section className="course-story" aria-label="이 코스를 추천하는 이유">
+        <div className="story-mark"><Sparkles aria-hidden="true" /></div>
+        <div className="story-copy"><span>WHY THIS COURSE</span><h4>{course.storyTitle}</h4><p>{course.story}</p></div>
+      </section>
       <div className="detail-footer"><span><Clock3 /> 권장 전체 일정 {formatDuration(course.recommendedMinutes)}</span><span><Sparkles /> {course.note}</span></div>
     </div>
   );
