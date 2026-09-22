@@ -1,4 +1,4 @@
-import { ArrowDown, MapPin, Route } from "lucide-react";
+import { ArrowDown, MapPin, Menu, Route } from "lucide-react";
 import { TourPlanner } from "@/components/tour-planner";
 import { places } from "@/lib/travel-data";
 
@@ -7,7 +7,11 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="처음으로"><span className="brand-mark"><MapPin /></span><span>청주 한 바퀴</span></a>
-        <nav aria-label="주요 메뉴"><a href="#planner">코스 찾기</a><a href="#places">10개 명소</a></nav>
+        <nav className="desktop-nav" aria-label="주요 메뉴"><a href="#planner">코스 찾기</a><a href="#places">10개 명소</a></nav>
+        <details className="mobile-nav">
+          <summary aria-label="모바일 메뉴 열기"><Menu /><span>메뉴</span></summary>
+          <nav aria-label="모바일 주요 메뉴"><a href="#planner">코스 찾기</a><a href="#places">10개 명소</a></nav>
+        </details>
       </header>
 
       <section className="product-hero" id="top">

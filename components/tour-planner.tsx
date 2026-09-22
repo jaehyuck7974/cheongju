@@ -23,6 +23,8 @@ export function TourPlanner() {
   const [selectedPlace, setSelectedPlace] = useState("musimcheon");
   const [theme, setTheme] = useState<ThemeFilter>("전체");
   const [mode, setMode] = useState<TravelMode>("walk");
+  const [showAllCourses, setShowAllCourses] = useState(false);
+  const [mapExpanded, setMapExpanded] = useState(false);
   const filtered = useMemo(() => courses.filter((course) => course.stops.includes(selectedPlace) && (theme === "전체" || course.theme === theme)), [selectedPlace, theme]);
   const [activeCourseId, setActiveCourseId] = useState("river-art");
   const activeCourse = filtered.find((course) => course.id === activeCourseId) ?? filtered[0] ?? courses.find((course) => course.stops.includes(selectedPlace)) ?? courses[0];
@@ -30,6 +32,10 @@ export function TourPlanner() {
   useEffect(() => {
     if (!filtered.some((course) => course.id === activeCourseId) && filtered[0]) setActiveCourseId(filtered[0].id);
   }, [activeCourseId, filtered]);
+
+  useEffect(() => {
+    setShowAllCourses(false);
+  }, [selectedPlace, theme]);
 
   useEffect(() => {
     type ModelContext = { registerTool?: (tool: Record<string, unknown>, options?: { signal?: AbortSignal }) => void | Promise<void> };
@@ -105,17 +111,20 @@ export function TourPlanner() {
         </div>
 
         <div className="planner-workspace">
-          <div className="course-results">
+          <div className={`course-results ${showAllCourses ? "expanded" : ""}`}>
             <div className="result-head"><span>추천 코스</span><strong>{filtered.length}개</strong></div>
             {filtered.length ? filtered.map((course) => (
               <CourseCard key={course.id} course={course} mode={mode} active={activeCourse.id === course.id} onClick={() => setActiveCourseId(course.id)} />
             )) : (
               <div className="no-results"><Route /><strong>해당 테마의 코스가 아직 없습니다.</strong><button onClick={() => setTheme("전체")}>모든 코스 보기</button></div>
             )}
+            {filtered.length > 3 ? <button className="mobile-results-toggle" onClick={() => setShowAllCourses((value) => !value)} aria-expanded={showAllCourses}>{showAllCourses ? "코스 접기" : `나머지 ${filtered.length - 3}개 코스 보기`}</button> : null}
           </div>
           <div className="map-column">
-            <TourMap course={activeCourse} selectedPlace={selectedPlace} onSelectPlace={choosePlace} />
-            <CourseDetail course={activeCourse} mode={mode} />
+            <CourseDetail course={activeCourse} mode={mode} className="mobile-only mobile-course-detail" />
+            <button className="mobile-map-toggle" onClick={() => setMapExpanded((value) => !value)} aria-expanded={mapExpanded}>{mapExpanded ? "개념 지도 접기" : "개념 지도 보기"}<ChevronRight /></button>
+            <div className={`mobile-map-shell ${mapExpanded ? "expanded" : ""}`}><TourMap course={activeCourse} selectedPlace={selectedPlace} onSelectPlace={choosePlace} /></div>
+            <CourseDetail course={activeCourse} mode={mode} className="desktop-course-detail" />
           </div>
         </div>
         <p className="time-disclaimer">이동시간은 장소 사이의 예상 이동시간 합계이며 관람·식사 시간은 제외됩니다. 교통, 신호, 주차와 현장 상황에 따라 달라질 수 있습니다.</p>
@@ -177,9 +186,9 @@ function TourMap({ course, selectedPlace, onSelectPlace }: { course: Course; sel
   );
 }
 
-function CourseDetail({ course, mode }: { course: Course; mode: TravelMode }) {
+function CourseDetail({ course, mode, className = "" }: { course: Course; mode: TravelMode; className?: string }) {
   return (
-    <div className="course-detail" style={{ "--course-color": course.color } as React.CSSProperties}>
+    <div className={`course-detail ${className}`} style={{ "--course-color": course.color } as React.CSSProperties}>
       <div className="detail-heading">
         <div><span>{course.theme} COURSE</span><h3>{course.title}</h3></div>
         <div className="detail-time">{mode === "walk" ? <Footprints /> : <Car />}<strong>{mode === "walk" ? course.walkMinutes : course.driveMinutes}분</strong><small>예상 이동</small></div>
@@ -262,7 +271,7 @@ function PhotoGallery({ place }: { place: Place }) {
       <div className="photo-grid">
         {loading ? Array.from({ length: 5 }).map((_, i) => <div className="photo-slot loading" key={i}><Loader2 className="animate-spin" /></div>) : <>
           {photos.map((photo, index) => <figure className="photo-slot filled" key={photo.key}>{/* eslint-disable-next-line @next/next/no-img-element */}<img src={photo.url} alt={`${place.name} 현장 사진 ${index + 1}`} /><figcaption>{String(index + 1).padStart(2, "0")}</figcaption><button onClick={() => void remove(photo.key)} aria-label={`${index + 1}번 사진 삭제`}><Trash2 /></button></figure>)}
-          {Array.from({ length: Math.max(0, 5 - photos.length) }).map((_, i) => <button className="photo-slot add" key={`empty-${i}`} onClick={() => inputRef.current?.click()} disabled={uploading}>{i === 0 ? <><ImagePlus /><span>{uploading ? "올리는 중…" : "사진 추가"}</span></> : <><X /><span>{photos.length + i + 1}</span></>}</button>)}
+          {Array.from({ length: Math.max(0, 5 - photos.length) }).map((_, i) => <button className="photo-slot add" key={`empty-${i}`} onClick={() => inputRef.current?.click()} disabled={uploading}>{i === 0 ? <><ImagePlus /><span>{uploading ? "올리는 중…" : "사진 추가"}</span><small className="mobile-only gallery-capacity">{5 - photos.length}장 더 추가 가능</small></> : <><X /><span>{photos.length + i + 1}</span></>}</button>)}
         </>}
       </div>
       <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={upload} hidden />
